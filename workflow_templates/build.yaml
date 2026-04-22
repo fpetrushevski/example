@@ -1,0 +1,63 @@
+name: Docker Image Build
+
+on:
+  # This is a reusable workflow
+  workflow_call:
+    inputs:
+      app_name:
+        description: "Name of Application that is builded"
+        required: true
+        type: string
+      dockerhub_account:
+        description: "Name of the account in DockerHub Registry"
+        required: true
+        type: string
+      environment:
+        description: "Name of the environment for building the image"
+        required: true
+        type: string
+      image_tag:
+        description: "Image Tag"
+        required: true
+        type: string
+
+jobs:
+  build-code:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set_up_Docker_Buildx_Buildkit
+        uses: docker/setup-buildx-action@v3
+
+      - name: Checkout
+        uses: "actions/checkout@v4"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build_Container_Image
+        id: build
+        uses: docker/build-push-action@v6 # Creator verified by GitHub
+        with:
+          load: true
+          context: .
+          file: Dockerfile
+          tags: ${{ inputs.dockerhub_account }}/${{ inputs.app_name }}:${{ inputs.image_tag }}
+          push: false
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.0.10
+        with:
+          scan-type: 'image'  
+          image-ref: '${{ inputs.dockerhub_account }}/${{ inputs.app_name }}:${{ inputs.image_tag }}'
+          exit-code: 0
+          severity: HIGH,CRITICAL
+          # ignore-unfixed: true
+
+      - name: Push Docker Image to Google Artifact Registry
+        run: |
+          docker push ${{ inputs.dockerhub_account }}/${{ inputs.app_name }}:${{ inputs.image_tag }}

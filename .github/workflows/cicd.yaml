@@ -1,0 +1,24 @@
+name: Build and Deploy dotnet-todo Service
+
+run-name: ${{ github.workflow }}-${{ github.actor}}-${{ github.sha }}
+
+on:
+  push:
+    branches:
+      # - main
+      - filip-dev
+    paths-ignore:
+      - .gitignore
+      - README.md
+  
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./workflow_templates/build.yaml
+    with:
+      app_name: todo
+      dockerhub_account: petrushevski
+      environment: dev
+      image_tag: 1.0.0
+    secrets: inherit
