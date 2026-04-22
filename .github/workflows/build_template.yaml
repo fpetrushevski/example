@@ -52,6 +52,7 @@ jobs:
           context: .
           file: ./Dockerfile
           tags: ${{ inputs.dockerhub_account }}/${{ inputs.app_name }}:${{ inputs.image_tag }}
+          no-cache: true
           push: false
 
       - name: Run Trivy vulnerability scanner
