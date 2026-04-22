@@ -20,5 +20,5 @@ jobs:
       app_name: todo
       dockerhub_account: petrushevski
       environment: dev
-      image_tag: 1.0.0
+      image_tag: 1.0.1
     secrets: inherit
