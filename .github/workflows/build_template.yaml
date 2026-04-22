@@ -31,6 +31,7 @@ jobs:
       - name: Validate_Path
         run: |
           pwd
+          ls -ltrh
           
       - name: Set_up_Docker_Buildx_Buildkit
         uses: docker/setup-buildx-action@v3
