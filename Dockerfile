@@ -1,7 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY dotnet-todo/src/**/*.csproj ./
-COPY dotnet-todo/src/. ./
+COPY /dotnet-todo/src/. ./
 RUN dotnet restore
 RUN dotnet publish -c Release -o /app/publish \
     --no-restore \
