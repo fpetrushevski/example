@@ -50,7 +50,7 @@ jobs:
           push: false
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.0.10
+        uses: aquasecurity/trivy-action@0.35.0
         with:
           scan-type: 'image'  
           image-ref: '${{ inputs.dockerhub_account }}/${{ inputs.app_name }}:${{ inputs.image_tag }}'
