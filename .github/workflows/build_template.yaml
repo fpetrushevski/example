@@ -44,6 +44,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Debug Dockerfile content
+        run: cat Dockerfile
+
       - name: Build_Container_Image
         id: build
         uses: docker/build-push-action@v6 # Creator verified by GitHub
