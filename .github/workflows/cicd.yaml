@@ -15,7 +15,7 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/workflow_templates/build.yaml
+    uses: ./.github/workflows/workflow_templates/build_template.yaml
     with:
       app_name: todo
       dockerhub_account: petrushevski
