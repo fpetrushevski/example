@@ -50,7 +50,7 @@ jobs:
         with:
           load: true
           context: .
-          file: Dockerfile
+          file: ./Dockerfile
           tags: ${{ inputs.dockerhub_account }}/${{ inputs.app_name }}:${{ inputs.image_tag }}
           push: false
 
